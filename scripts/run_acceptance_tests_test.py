@@ -20,6 +20,7 @@ import contextlib
 import subprocess
 import sys
 from unittest import mock
+from run_acceptance_tests import print_test_output
 
 from core.constants import constants
 from core.tests import test_utils
