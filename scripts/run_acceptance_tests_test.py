@@ -29,7 +29,6 @@ from scripts import run_acceptance_tests
 from scripts import scripts_test_utils
 from scripts import servers
 
-from run_acceptance_tests import print_test_output
 from typing import ContextManager, List, Optional, Tuple
 
 
@@ -378,7 +377,7 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
         output_lines = [b'Line 1', b'Line 2', b'Line 3']
 
         with self.assertRaises(IOError):
-            print_test_output(output_lines)
+            run_acceptance_tests.print_test_output(output_lines)
 
         mock_open.assert_called_once_with(
             'test_output.log', 'w', encoding='utf-8')
