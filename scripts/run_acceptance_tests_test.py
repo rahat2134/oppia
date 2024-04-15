@@ -379,4 +379,5 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
         with self.assertRaises(IOError):
             run_acceptance_tests.print_test_output(output_lines)
 
-        mock_open.assert_called_once_with('test_output.log', 'w', encoding='utf-8')
+        mock_open.assert_called_once_with(
+            'test_output.log', 'w', encoding='utf-8')
