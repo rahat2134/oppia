@@ -370,8 +370,10 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
         self.assertEqual(content, 'Line 1\nLine \u2713\nLine 3\n')
 
     @mock.patch('builtins.open', new_callable=mock.mock_open)
-    def test_print_test_output_with_io_error(self, mock_open: mock.MagicMock
-    ) -> None: mock_open.side_effect = IOError('Failed to open file')
+    def test_print_test_output_with_io_error(
+        self, mock_open: mock.MagicMock
+    ) -> None:
+        mock_open.side_effect = IOError('Failed to open file')
         output_lines = [b'Line 1', b'Line 2', b'Line 3']
 
         with self.assertRaises(IOError):
