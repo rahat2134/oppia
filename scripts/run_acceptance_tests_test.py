@@ -19,10 +19,10 @@ from __future__ import annotations
 import contextlib
 import subprocess
 import sys
+from unittest import mock
 
 from core.constants import constants
 from core.tests import test_utils
-from unittest import mock
 from scripts import build
 from scripts import common
 from scripts import run_acceptance_tests
