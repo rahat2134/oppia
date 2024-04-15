@@ -99,7 +99,7 @@ def compile_test_ts_files() -> None:
         os.path.join(build_dir_path, 'images'))
 
 
-def print_test_output(output_lines):
+def print_test_output(output_lines: List[bytes]) -> None:
     """Print the test output lines to a separate file."""
     with open('test_output.log', 'w', encoding='utf-8') as output_file:
         for line in output_lines:
@@ -155,7 +155,7 @@ def run_tests(args: argparse.Namespace) -> Tuple[List[bytes], int]:
 
         print('Servers have come up.\n')
 
-        output_lines = []
+        output_lines: List[bytes] = []
         while True:
             # Keep reading lines until an empty string is returned. Empty
             # strings signal that the process has ended.
@@ -185,9 +185,6 @@ def main(args: Optional[List[str]] = None) -> None:
 
     with servers.managed_portserver():
         _, return_code = run_tests(parsed_args)
-
-    with open('test_output.log', 'r', encoding='utf-8') as output_file:
-        print(output_file.read())
 
     sys.exit(return_code)
 
