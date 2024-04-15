@@ -188,7 +188,7 @@ def main(args: Optional[List[str]] = None) -> None:
 
     with open('test_output.log', 'r', encoding='utf-8') as output_file:
         print(output_file.read())
-    
+
     sys.exit(return_code)
 
 
