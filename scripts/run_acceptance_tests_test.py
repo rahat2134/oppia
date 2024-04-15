@@ -349,3 +349,31 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
         with self.swap_mock_set_constants_to_default:
             with self.swap(constants, 'EMULATOR_MODE', True):
                 run_acceptance_tests.main(args=['--suite', 'testSuite'])
+
+    def test_print_test_output_with_ascii_characters(self) -> None:
+        output_lines = [b'Line 1', b'Line 2', b'Line 3']
+        run_acceptance_tests.print_test_output(output_lines)
+
+        with open('test_output.log', 'r', encoding='utf-8') as output_file:
+            content = output_file.read()
+
+        self.assertEqual(content, 'Line 1\nLine 2\nLine 3\n')
+
+    def test_print_test_output_with_non_ascii_characters(self) -> None:
+        output_lines = [b'Line 1', b'Line \xe2\x9c\x93', b'Line 3']
+        run_acceptance_tests.print_test_output(output_lines)
+
+        with open('test_output.log', 'r', encoding='utf-8') as output_file:
+            content = output_file.read()
+
+        self.assertEqual(content, 'Line 1\nLine \u2713\nLine 3\n')
+
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    def test_print_test_output_with_io_error(self, mock_open: mock.MagicMock) -> None:
+        mock_open.side_effect = IOError('Failed to open file')
+        output_lines = [b'Line 1', b'Line 2', b'Line 3']
+
+        with self.assertRaises(IOError):
+            run_acceptance_tests.print_test_output(output_lines)
+
+        mock_open.assert_called_once_with('test_output.log', 'w', encoding='utf-8')
