@@ -17,9 +17,9 @@
 from __future__ import annotations
 
 import contextlib
+import os
 import subprocess
 import sys
-import os
 
 from core.constants import constants
 from core.tests import test_utils
