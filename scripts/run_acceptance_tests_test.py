@@ -28,9 +28,11 @@ from scripts import common
 from scripts import run_acceptance_tests
 from scripts import scripts_test_utils
 from scripts import servers
-from scripts.run_acceptance_tests import print_test_output
 
 from typing import ContextManager, List, Optional, Tuple
+
+run_acceptance_tests.print_test_output(test_data)
+
 
 class PopenErrorReturn:
     """Popen return object."""
