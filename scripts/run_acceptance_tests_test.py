@@ -21,6 +21,7 @@ import os
 import subprocess
 import sys
 
+from .run_acceptance_tests import print_test_output
 from core.constants import constants
 from core.tests import test_utils
 from scripts import build
@@ -352,14 +353,15 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
                 run_acceptance_tests.main(args=['--suite', 'testSuite'])
 
     def test_print_test_output(self):
-            test_data = [b'Test case 1 passed', b'Test case 2 failed', b'Test case 3 skipped']
+        test_data = [b'Test case 1 passed',
+          b'Test case 2 failed', b'Test case 3 skipped']
 
-            print_test_output(test_data)
+        print_test_output(test_data)
 
-            with open('test_output.log', 'r', encoding='utf-8') as output_file:
-                lines = output_file.readlines()
-                self.assertEqual(len(lines), 2)
-                self.assertEqual(lines[0].strip(), 'Test case 1 passed')
-                self.assertEqual(lines[1].strip(), 'Test case 2 failed')
+        with open('test_output.log', 'r', encoding='utf-8') as output_file:
+            lines = output_file.readlines()
+            self.assertEqual(len(lines), 2)
+            self.assertEqual(lines[0].strip(), 'Test case 1 passed')
+            self.assertEqual(lines[1].strip(), 'Test case 2 failed')
 
-            os.remove('test_output.log')
+        os.remove('test_output.log')
