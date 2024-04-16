@@ -31,8 +31,6 @@ from scripts import servers
 
 from typing import ContextManager, List, Optional, Tuple
 
-run_acceptance_tests.print_test_output(test_data)
-
 
 class PopenErrorReturn:
     """Popen return object."""
