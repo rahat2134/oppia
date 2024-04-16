@@ -357,7 +357,7 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
         test_data = [b'Test case 1 passed',
           b'Test case 2 failed', b'Test case 3 skipped']
 
-        print_test_output(test_data)
+        run_acceptance_tests.print_test_output(test_data)
 
         with open('test_output.log', 'r', encoding='utf-8') as output_file:
             lines = output_file.readlines()
