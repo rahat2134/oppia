@@ -351,7 +351,7 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
             with self.swap(constants, 'EMULATOR_MODE', True):
                 run_acceptance_tests.main(args=['--suite', 'testSuite'])
 
-    def test_print_test_output(self):
+    def test_print_test_output(self) -> None::
         test_data = [b'Test case 1 passed',
           b'Test case 2 failed', b'Test case 3 skipped']
 
