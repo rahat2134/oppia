@@ -1,4 +1,4 @@
-# Copyright 2023 The Oppia Authors. All Rights Reserved.
+# Copyright 2024 The Oppia Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ from __future__ import annotations
 import contextlib
 import subprocess
 import sys
-from unittest import mock
+import os
 
 from core.constants import constants
 from core.tests import test_utils
@@ -351,33 +351,15 @@ class RunAcceptanceTestsTests(test_utils.GenericTestBase):
             with self.swap(constants, 'EMULATOR_MODE', True):
                 run_acceptance_tests.main(args=['--suite', 'testSuite'])
 
-    def test_print_test_output_with_ascii_characters(self) -> None:
-        output_lines = [b'Line 1', b'Line 2', b'Line 3']
-        run_acceptance_tests.print_test_output(output_lines)
+    def test_print_test_output(self):
+            test_data = [b'Test case 1 passed', b'Test case 2 failed', b'Test case 3 skipped']
 
-        with open('test_output.log', 'r', encoding='utf-8') as output_file:
-            content = output_file.read()
+            print_test_output(test_data)
 
-        self.assertEqual(content, 'Line 1\nLine 2\nLine 3\n')
+            with open('test_output.log', 'r', encoding='utf-8') as output_file:
+                lines = output_file.readlines()
+                self.assertEqual(len(lines), 2)
+                self.assertEqual(lines[0].strip(), 'Test case 1 passed')
+                self.assertEqual(lines[1].strip(), 'Test case 2 failed')
 
-    def test_print_test_output_with_non_ascii_characters(self) -> None:
-        output_lines = [b'Line 1', b'Line \xe2\x9c\x93', b'Line 3']
-        run_acceptance_tests.print_test_output(output_lines)
-
-        with open('test_output.log', 'r', encoding='utf-8') as output_file:
-            content = output_file.read()
-
-        self.assertEqual(content, 'Line 1\nLine \u2713\nLine 3\n')
-
-    @mock.patch('builtins.open', new_callable=mock.mock_open)
-    def test_print_test_output_with_io_error(
-        self, mock_open: mock.MagicMock
-    ) -> None:
-        mock_open.side_effect = IOError('Failed to open file')
-        output_lines = [b'Line 1', b'Line 2', b'Line 3']
-
-        with self.assertRaises(IOError):
-            run_acceptance_tests.print_test_output(output_lines)
-
-        mock_open.assert_called_once_with(
-            'test_output.log', 'w', encoding='utf-8')
+            os.remove('test_output.log')

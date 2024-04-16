@@ -103,7 +103,9 @@ def print_test_output(output_lines: List[bytes]) -> None:
     """Print the test output lines to a separate file."""
     with open('test_output.log', 'w', encoding='utf-8') as output_file:
         for line in output_lines:
-            output_file.write(line.decode('utf-8') + '\n')
+            line_text = line.decode('utf-8')
+            if "passed" in line_text.lower() or "failed" in line_text.lower():
+                output_file.write(line_text + '\n')
 
 
 def run_tests(args: argparse.Namespace) -> Tuple[List[bytes], int]:
@@ -155,7 +157,7 @@ def run_tests(args: argparse.Namespace) -> Tuple[List[bytes], int]:
 
         print('Servers have come up.\n')
 
-        output_lines: List[bytes] = []
+        output_lines = []
         while True:
             # Keep reading lines until an empty string is returned. Empty
             # strings signal that the process has ended.
@@ -185,6 +187,9 @@ def main(args: Optional[List[str]] = None) -> None:
 
     with servers.managed_portserver():
         _, return_code = run_tests(parsed_args)
+
+    with open('test_output.log', 'r', encoding='utf-8') as output_file:
+        print(output_file.read())
 
     sys.exit(return_code)
 
