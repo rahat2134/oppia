@@ -104,7 +104,7 @@ def print_test_output(output_lines: List[bytes]) -> None:
     with open('test_output.log', 'w', encoding='utf-8') as output_file:
         for line in output_lines:
             line_text = line.decode('utf-8')
-            if "passed" in line_text.lower() or "failed" in line_text.lower():
+            if 'passed' in line_text.lower() or 'failed' in line_text.lower():
                 output_file.write(line_text + '\n')
 
 

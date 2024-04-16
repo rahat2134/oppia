@@ -21,7 +21,6 @@ import os
 import subprocess
 import sys
 
-from .run_acceptance_tests import print_test_output
 from core.constants import constants
 from core.tests import test_utils
 from scripts import build
@@ -32,6 +31,7 @@ from scripts import servers
 
 from typing import ContextManager, List, Optional, Tuple
 
+from scripts.run_acceptance_tests import print_test_output
 
 class PopenErrorReturn:
     """Popen return object."""
